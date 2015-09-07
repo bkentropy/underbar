@@ -103,6 +103,13 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniqArray =[];
+    _.each(array, function(val){
+      if(_.indexOf(uniqArray, val) === -1){
+        uniqArray.push(val);
+      }
+    })
+    return uniqArray;
   };
 
 
@@ -111,7 +118,14 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var transformed = [];
+    _.each(collection, function(ele){
+      transformed.push(iterator(ele));
+    })
+    return transformed;
   };
+  // Hmm this map doesn't work on objects, but I bet I could get something
+  // like that to work.
 
   /*
    * TIP: map is really handy when you want to transform an array of
