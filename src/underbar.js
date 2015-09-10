@@ -294,7 +294,7 @@
     };
   };
 
-  // Memorize an expensive function's results by storing them. You may assume
+  // Memoize an expensive function's results by storing them. You may assume
   // that the function takes only one argument and that it is a primitive.
   // memorize could be renamed to oncePerUniqueArgumentList; memoize does the
   // same thing as once, but based on many sets of unique arguments.
@@ -303,6 +303,12 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var memorized = _.once(func);
+    if (memorized) {
+      return memorized;
+    } else {
+      return func();
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
