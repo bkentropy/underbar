@@ -233,11 +233,33 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    // This trick comes from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
+    var args = Array.prototype.slice.call(arguments, 1);
+    _.each(args, function(newObj){
+      //val is a whole object with key: value
+      for (var key in newObj){
+        obj[key] = newObj[key];
+      }
+    });
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    console.log(args);
+    _.each(args, function(newObj){
+      //val is a whole object with key: value
+      for (var key in newObj){
+        if(key in obj) {
+          obj[key] = obj[key]
+        } else {
+          obj[key] = newObj[key];
+        }
+      }
+    });
+    return obj;
   };
 
 
@@ -274,7 +296,7 @@
 
   // Memorize an expensive function's results by storing them. You may assume
   // that the function takes only one argument and that it is a primitive.
-  // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
+  // memorize could be renamed to oncePerUniqueArgumentList; memoize does the
   // same thing as once, but based on many sets of unique arguments.
   //
   // _.memoize should return a function that, when called, will check if it has
