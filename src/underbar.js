@@ -248,7 +248,7 @@
   // exists in obj
   _.defaults = function(obj) {
     var args = Array.prototype.slice.call(arguments, 1);
-    console.log(args);
+    // console.log(args);
     _.each(args, function(newObj){
       //val is a whole object with key: value
       for (var key in newObj){
@@ -303,12 +303,11 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var memorized = _.once(func);
-    if (memorized) {
-      return memorized;
-    } else {
-      return func();
+    var memorized;
+    if (memorized === undefined) {
+      memorized = _.once(func);
     }
+    return memorized
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -318,6 +317,8 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    return setTimeout(func(args[0],args[1]), wait)
   };
 
 
