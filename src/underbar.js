@@ -303,11 +303,22 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var memorized;
-    if (memorized === undefined) {
-      memorized = _.once(func);
+    // Create a place to store the memos
+    var memoized = {};
+    // We need to return a function
+    return function(){
+      // Borrowing this technique from Extends
+      var args = Array.prototype.slice.call(arguments);
+      // Return the result if the function has already been invoked
+      if (args in memoized) {
+        return memoized[args];
+      } // Invoke the function if it has not yet been invoked
+      else {
+        // Include it in the memoized object and invoke it
+        return memoized[args] = func();
+      }
     }
-    return memorized
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -320,7 +331,7 @@
     var delayedFun;
     var args = Array.prototype.slice.call(arguments, 2);
     var fun = func(args[0],args[1])
-    delayedFun = window.setTimeout(fun, wait)
+    delayedFun = setTimeout(fun, wait)
     return delayedFun
   };
 
