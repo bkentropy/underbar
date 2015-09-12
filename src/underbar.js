@@ -305,7 +305,7 @@
   _.memoize = function(func) {
     // Create a place to store the memos
     var memoized = {};
-    // We need to return a function
+    // We need to return a function (could also set to a var and then return the var)
     return function(){
       // Borrowing this technique from Extends
       var args = Array.prototype.slice.call(arguments);
@@ -319,10 +319,12 @@
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
         // return memoized[args] = func.call(this, args);
         // Call can only take one argument, but args is an array. So we must use apply.
+        // The function must be executed AND added to the cache
         return memoized[args] = func.apply(this, args);
       }
     }
-
+      // If you work through the fibonacci functions very helpful!
+      // http://www.sitepoint.com/implementing-memoization-in-javascript/
   };
 
   // Delays a function for the given number of milliseconds, and then calls
