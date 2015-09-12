@@ -315,7 +315,11 @@
       } // Invoke the function if it has not yet been invoked
       else {
         // Include it in the memoized object and invoke it
-        return memoized[args] = func();
+        // return memoized[args] = func(); // Can't just invoke the function
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
+        // return memoized[args] = func.call(this, args);
+        // Call can only take one argument, but args is an array. So we must use apply.
+        return memoized[args] = func.apply(this, args);
       }
     }
 
@@ -330,8 +334,8 @@
   _.delay = function(func, wait) {
     var delayedFun;
     var args = Array.prototype.slice.call(arguments, 2);
-    var fun = func(args[0],args[1])
-    delayedFun = setTimeout(fun, wait)
+    var fun = func.apply(null, args);
+    delayedFun = window.setTimeout(fun, wait)
     return delayedFun
   };
 
