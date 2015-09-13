@@ -320,7 +320,7 @@
         // return memoized[args] = func.call(this, args);
         // Call can only take one argument, but args is an array. So we must use apply.
         // The function must be executed AND added to the cache
-        return memoized[args] = func.apply(this, args);
+        return memoized[args] = func.apply(null, args);
       }
     }
       // If you work through the fibonacci functions very helpful!
@@ -334,9 +334,12 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    // Collect the arguments after func and wait
     var args = Array.prototype.slice.call(arguments, 2);
-    var fun = func.apply(null, args);window.setTimeout(_.delay, wait)
-    return fun
+    // window.setTimeout(alert("hello", 1000));
+    setTimeout(function() {
+      return func.apply(this, args)}
+      , wait);
   };
 
 
@@ -351,6 +354,21 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    // Create a new array so as to not disturb the original.
+    var shufArray = array.slice();
+    // Make a loop to move each of the elements
+    for (var i = 0; i < shufArray.length; i++) {
+      // Get some random numbers: http://stackoverflow.com/questions/4959975/generate-random-value-between-two-numbers-in-javascript
+      var j = Math.floor((Math.random() * shufArray.length-1) + 1);
+      // Hold an element from an array
+      var heldValue = shufArray[i];
+      // Move the elements around
+      shufArray[i] = shufArray[j];
+      // shufArray[j] becomes the held value FROM shufArray[i]
+      shufArray[j] = heldValue;
+    }
+    // Return the shuffled array
+    return shufArray;
   };
 
 
